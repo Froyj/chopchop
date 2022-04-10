@@ -1,0 +1,35 @@
+{
+  "name": "webapp",
+  "version": "0.0.0",
+  "private": true,
+  "description": "> TODO: description",
+  "author": "Geoffroy Periot <geoffroy.periot.dev@gmail.com>",
+  "homepage": "",
+  "license": "ISC",
+  "main": "lib/webapp.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "tsc": "tsc",
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.33",
+    "@types/react-dom": "^17.0.10",
+    "@vitejs/plugin-react": "^1.0.7",
+    "typescript": "^4.5.4",
+    "vite": "^2.9.0"
+  }
+}
