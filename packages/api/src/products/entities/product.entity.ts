@@ -13,8 +13,8 @@ export type NutritionalInformation =
 export type Availability = 'available' | 'coming_soon' | Date;
 
 export interface ReheatInstructions {
-  reheatingMode: string;
-  reheatingTime: number;
+  reheatMode: string;
+  reheatTime: number;
 }
 
 @Schema()
@@ -31,10 +31,10 @@ export class Product {
   @Prop()
   retentionTime: number;
 
-  @Prop({ type: String, required: true })
+  @Prop({ type: Object, required: true })
   reheatingInstructions: ReheatInstructions;
 
-  @Prop({ type: Date, required: true })
+  @Prop({ type: String, required: true })
   availability: Availability;
 
   @Prop({ min: 0, max: 20 })
