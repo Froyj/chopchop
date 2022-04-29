@@ -1,7 +1,7 @@
 import axios from '../helpers/axios-config';
 
 class ProductController {
-  public static getProducts() {
+  public static getAll() {
     return axios.get('/products').then((res) => res.data);
   }
 }
