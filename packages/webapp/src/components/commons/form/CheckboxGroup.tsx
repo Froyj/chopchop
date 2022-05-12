@@ -4,7 +4,7 @@ type Props = {
 
 function CheckboxGroup({ children }: Props) {
   return (
-    <div className="rounded-lg">{children}</div>
+    <div className="rounded-lg border p-4 flex flex-wrap">{children}</div>
   )
 }
 

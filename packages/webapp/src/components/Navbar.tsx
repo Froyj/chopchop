@@ -27,7 +27,7 @@ export default function Navbar({ }: Props) {
             ].map((item) => {
               const [label, path, icon]: (string | any)[] = item;
               return (
-                <li className='list-none my-6 text-xl'>
+                <li key={label} className='list-none my-6 text-xl'>
                   <Link to={path}>
                     <div className='rounded-lg border-2 border-slate-400 p-2'>
                       {icon && <FontAwesomeIcon icon={icon} className='mr-2' />}

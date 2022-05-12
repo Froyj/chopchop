@@ -10,7 +10,7 @@ export type Product = {
   nutritionalInformation: string[];
   retentionTime: number;
   reheatingInstructions: ReheatInstructions;
-  availability: string;
+  availability: boolean;
   servings: number;
   imageUrl: string;
 };

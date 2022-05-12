@@ -14,10 +14,8 @@ export default function ProductCard({ product }: Props) {
 
   return (
     <li key={product._id} className=' min-w-[300px] basis-full md:basis-[300px]'>
-      <div className=' p-4 text-center -mt-[90px]'>
-        <div className=''>
-          <img src={product.imageUrl} alt="" className='relative top-[90px] rounded-full w-48 h-48 object-cover mx-auto border-2' />
-        </div>
+      <div className=' p-4 text-center'>
+        <img src={product.imageUrl} alt="" className='relative top-[90px] rounded-full w-48 h-48 object-cover mx-auto border-2' />
         <div className='border-2 border-slate-400 rounded-3xl flex flex-col text-2xl space-y-6 pt-32 pb-8 px-2'>
           <h3 className='font-normal'>{product.name}</h3>
           <span className='font-semibold'>{product.availability}</span>
@@ -25,7 +23,7 @@ export default function ProductCard({ product }: Props) {
         </div>
       </div>
       {isModalOpen && <Modal setIsModalOpen={setIsModalOpen}>
-        <ProductForm />
+        <ProductForm product={product} />
       </Modal>}
     </li>
   )

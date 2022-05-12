@@ -1,4 +1,3 @@
-import { useRef } from 'react';
 import { useForm, FormProvider } from "react-hook-form";
 import { Product } from 'types/Product';
 import TextInput from './form/TextInput';
@@ -7,7 +6,7 @@ import Checkbox from './form/Checkbox';
 import ProductController from '../../api/ProductController';
 
 type Props = {
-  product?: Product;
+  product: Product;
 }
 
 export default function ProductForm({ product }: Props) {
@@ -25,7 +24,8 @@ export default function ProductForm({ product }: Props) {
 
   return (
       <FormProvider {...formMethods}>
-        <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col m-auto bg-white w-1/3 align-middle border-2 rounded-lg p-3'>
+        <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col m-auto bg-white w-1/2 align-middle border-2 rounded-lg p-3 gap-y-4'>
+        <img src={product.imageUrl} alt="" className='relative rounded-full w-48 h-48 object-cover mx-auto border-2' />
           <TextInput placeholder="Qu'est ce qu'on mange?" name='name' />
           <TextInput placeholder='Description' name='description' />
           <TextInput placeholder='Categorie' name='category' />
@@ -59,14 +59,16 @@ export default function ProductForm({ product }: Props) {
               <textarea {...register('reheatingInstructions.instructions')} className='border p-2 rounded-md' placeholder='Temps et température/puissance' rows={4}></textarea>
             </div>
           </div>
-          <div className="rounded-lg border p-4 flex flex-col flex-wrap gap-y-8 gap-x-8 text-center basis-1/2">
+          <div className="rounded-lg border p-4 flex flex-wrap gap-y-8 gap-x-8 text-center basis-1/2 justify-around">
             <span>
               <input type="number" min={0} className='border w-12 mr-4 rounded-md inner' {...register('servings')} />
               <strong>
                 portions
               </strong>
             </span>
+            <Checkbox name='availability' value='available' label='Disponible' />
           </div>
+          <input type="submit" value="Valider" className="rounded-md border bg-neutral-300"/>
         </form>
       </FormProvider>
   )

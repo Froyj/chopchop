@@ -28,7 +28,7 @@ export default function AdminDashboard() {
       </div>
       <ul className='flex flex-row flex-wrap -mx-8 align-bottom justify-around'>
         {products.map(product => (
-          <ProductCard product={product} />
+          <ProductCard key={product._id} product={product} />
         ))}
       </ul>
     </section>

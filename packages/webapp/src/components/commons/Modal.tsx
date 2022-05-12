@@ -15,7 +15,7 @@ function Modal({ children, setIsModalOpen }: Props) {
   }
 
   return (
-    <div className='fixed top-0 left-0 w-screen h-screen bg-white z-10 flex bg-opacity-75' onClick={closeModal} ref={modalRef}>
+    <div className='fixed top-0 left-0 w-screen h-screen py-8 bg-white z-10 flex bg-opacity-75 overflow-auto' onClick={closeModal} ref={modalRef}>
       {children}
     </div>
   )

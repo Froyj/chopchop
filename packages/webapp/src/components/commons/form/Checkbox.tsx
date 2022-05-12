@@ -11,14 +11,14 @@ function Checkbox({ name, label, value }: Props) {
   const { register } = useFormContext()
 
   return (
-    <label className='flex'>
-      <span className=''>{label}</span>
+    <label className='flex basis-1/2'>
       <input
         {...register(name)}
         type="checkbox"
         value={value}
         className="self-center"
       />
+      <span className='ml-4'>{label}</span>
     </label>
   )
 }
