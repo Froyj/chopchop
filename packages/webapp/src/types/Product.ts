@@ -1,6 +1,6 @@
 interface ReheatInstructions {
-  reheatMode: string;
-  reheatTime: number;
+  mode: string;
+  instructions: string;
 }
 
 export type Product = {

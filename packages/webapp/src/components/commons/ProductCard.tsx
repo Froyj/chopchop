@@ -1,12 +1,17 @@
 import { Product } from '../../types/Product'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-regular-svg-icons';
+import { useState } from 'react';
+import Modal from './Modal';
+import ProductForm from './ProductForm';
 
 type Props = {
   product: Product
 }
 
 export default function ProductCard({ product }: Props) {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
   return (
     <li key={product._id} className=' min-w-[300px] basis-full md:basis-[300px]'>
       <div className=' p-4 text-center -mt-[90px]'>
@@ -16,9 +21,12 @@ export default function ProductCard({ product }: Props) {
         <div className='border-2 border-slate-400 rounded-3xl flex flex-col text-2xl space-y-6 pt-32 pb-8 px-2'>
           <h3 className='font-normal'>{product.name}</h3>
           <span className='font-semibold'>{product.availability}</span>
-          <button><FontAwesomeIcon icon={faEdit} /></button>
+          <button onClick={() => setIsModalOpen(true)}><FontAwesomeIcon icon={faEdit} /></button>
         </div>
       </div>
+      {isModalOpen && <Modal setIsModalOpen={setIsModalOpen}>
+        <ProductForm />
+      </Modal>}
     </li>
   )
 }
