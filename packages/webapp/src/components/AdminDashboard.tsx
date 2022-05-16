@@ -91,7 +91,7 @@ export default function AdminDashboard() {
         <h1 className='text-4xl font-semibold'>À la carte</h1>
         <FontAwesomeIcon icon={faCirclePlus} className='w-auto h-12' onClick={() => openForm()}/>
       </div>
-      <ul className='flex flex-row flex-wrap -mx-8 align-bottom justify-around'>
+      <ul className='flex flex-row flex-wrap justify-around'>
         {products.map(product => (
           <ProductCard key={product._id} product={product} openForm={openForm} />
         ))}

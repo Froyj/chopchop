@@ -5,7 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 function App() {
   return (
     <BrowserRouter>
-      <div className="flex justify-end">
+      <div className="flex">
         <Navbar />
         <AdminDashboard />
       </div>
