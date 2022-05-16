@@ -10,11 +10,11 @@ export type Product = {
   nutritionalInformation: string[];
   retentionTime: number;
   reheatingInstructions: ReheatInstructions;
-  availability: boolean;
+  availability: string;
   servings: number;
   imageUrl: string;
-};
+}
 
-
+export type ProductDto = Omit<Product, "_id">;
 
 
