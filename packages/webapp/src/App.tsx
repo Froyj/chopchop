@@ -6,7 +6,7 @@ import MainSection from "./components/MainSection";
 function App() {
   return (
     <BrowserRouter>
-      <div className="flex flex-wrap flex-col md:flex-row items-stretch">
+      <div className="flex flex flex-col md:flex-row">
         <Navbar />
         <MainSection>
           <AdminDashboard />

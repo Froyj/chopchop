@@ -9,9 +9,9 @@ type Props = {}
 
 export default function Navbar({ }: Props) {
   return (
-    <div className='min-w-[250px]'>
+    <div className='basis-[250px] md:min-h-screen shrink-0'>
       <div className='static md:fixed md:top-0 md:left-0
-                      m-0 w-full min-h-fit md:min-h-screen md:h-full min-w-max md:max-w-[250px] 
+                      m-0 w-full min-h-fit md:min-h-screen md:h-full min-w-min md:max-w-[250px] 
                       p-8 sm:border-r-2 bg-naplesYellow md:border-slate-400'>
         <header className='flex flex-row-reverse justify-end'>
           <span className='text-2xl'>

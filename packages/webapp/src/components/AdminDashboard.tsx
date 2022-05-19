@@ -86,12 +86,12 @@ export default function AdminDashboard() {
     }
   }, [])
   return (
-    <section className='p-12 max-w-4/5'>
+    <section className='basis-[100%-250px] p-12'>
       <div className='flex justify-between mb-12'>
         <h1 className='text-4xl font-semibold'>À la carte</h1>
         <FontAwesomeIcon icon={faCirclePlus} className='w-auto h-12' onClick={() => openForm()} />
       </div>
-      <ul className='grid grid-cols-[repeat(1,_minmax(200px,_1fr))] sm:grid-cols-[repeat(2,_minmax(200px,_1fr))] md:grid-cols-[repeat(3,_minmax(250px,_1fr))] lg:grid-cols-[repeat(4,_minmax(250px,_1fr))]'>
+      <ul className='w-full grid grid-cols-[repeat(1,_minmax(0px,_1fr))] sm:grid-cols-[repeat(2,_minmax(0,_1fr))] md:grid-cols-[repeat(3,_minmax(0,_1fr))] xl:grid-cols-[repeat(5,_minmax(4,_1fr))]'>
         {products.map(product => (
           <ProductCard key={product._id} product={product} openForm={openForm} />
         ))}
