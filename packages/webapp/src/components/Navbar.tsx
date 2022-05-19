@@ -10,14 +10,14 @@ type Props = {}
 export default function Navbar({ }: Props) {
   return (
     <div className='min-w-[250px]'>
-      <div className='fixed border-r-2 border-slate-400 h-100 min-h-screen p-8 top-0 left-0 right-0 w-1/5 min-w-max max-w-[250px]'>
-        <header className=''>
+      <div className='static md:fixed border-r-2 bg-naplesYellow border-slate-400 h-100 md:min-h-screen p-8 top-0 left-0 right-0 w-1/5 min-w-max max-w-[250px] overflow-scroll'>
+        <header className='flex flex-row-reverse justify-end'>
           <span className='text-2xl'>
             Bonjour Louise
           </span>
-          <img src='https://picsum.photos/150' alt="" className='rounded-full mx-auto my-8' />
+          <img src='https://picsum.photos/150' alt="" className='w-10 mr-4 rounded-full md:mx-auto md:my-8' />
         </header>
-        <nav className='flex flex-col'>
+        <nav className='flex md:flex-col'>
           {
             [
               ['Carte', '/carte', faDrumstickBite],
@@ -27,7 +27,7 @@ export default function Navbar({ }: Props) {
             ].map((item) => {
               const [label, path, icon]: (string | any)[] = item;
               return (
-                <li key={label} className='list-none my-6 text-xl'>
+                <li key={label} className=' mx-1 list-none my-6 text-xl'>
                   <Link to={path}>
                     <div className='rounded-lg border-2 border-slate-400 p-2'>
                       {icon && <FontAwesomeIcon icon={icon} className='mr-2' />}
