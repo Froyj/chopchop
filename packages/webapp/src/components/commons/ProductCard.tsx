@@ -11,7 +11,7 @@ export default function ProductCard({ product, openForm }: Props) {
   const productLabel = product.name.length < 50 ? product.name : `${product.name.slice(0, 49)}...`
 
   return (
-    <li key={product._id} className=' min-w-[200px] basis-full md:basis-[250px] mt-16'>
+    <li key={product._id} className='mt-16'>
       <div className=' p-4 text-center flex flex-col h-full'>
         <div className='h-0'>
           <img src={product.imageUrl} alt="" className='relative -top-[75px] rounded-full w-36 h-36 object-cover mx-auto border-2' />

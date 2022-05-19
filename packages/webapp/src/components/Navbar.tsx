@@ -10,7 +10,9 @@ type Props = {}
 export default function Navbar({ }: Props) {
   return (
     <div className='min-w-[250px]'>
-      <div className='static md:fixed border-r-2 bg-naplesYellow border-slate-400 h-100 md:min-h-screen p-8 top-0 left-0 right-0 w-1/5 min-w-max max-w-[250px] overflow-scroll'>
+      <div className='static md:fixed md:top-0 md:left-0
+                      m-0 w-full min-h-fit md:min-h-screen md:h-full min-w-max md:max-w-[250px] 
+                      p-8 sm:border-r-2 bg-naplesYellow md:border-slate-400'>
         <header className='flex flex-row-reverse justify-end'>
           <span className='text-2xl'>
             Bonjour Louise
