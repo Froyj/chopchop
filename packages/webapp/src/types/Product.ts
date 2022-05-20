@@ -1,6 +1,6 @@
 interface ReheatInstructions {
-  mode: string;
-  instructions: string;
+  reheatMode: string;
+  reheatInstructions: string;
 }
 
 export type Product = {
@@ -13,8 +13,6 @@ export type Product = {
   availability: string;
   servings: number;
   imageUrl: string;
-}
+};
 
-export type ProductDto = Omit<Product, "_id">;
-
-
+export type ProductDto = Omit<Product, '_id'>;

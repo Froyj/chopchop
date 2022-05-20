@@ -26,12 +26,14 @@
     "@fortawesome/free-regular-svg-icons": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fortawesome/react-fontawesome": "^0.1.18",
+    "@hookform/resolvers": "^2.8.10",
     "axios": "^0.26.1",
     "react": "^17.0.2",
     "react-confirm-alert": "^2.8.0",
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.31.1",
-    "react-router-dom": "^6.3.0"
+    "react-router-dom": "^6.3.0",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@types/react": "^17.0.33",

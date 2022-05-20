@@ -25,6 +25,9 @@ export class Product {
   @Prop({ required: true, maxlength: 400 })
   description: string;
 
+  @Prop({ required: true, maxlength: 50 })
+  category: string;
+
   @Prop({ required: true, default: [] })
   nutritionalInformation: Array<NutritionalInformation>;
 
