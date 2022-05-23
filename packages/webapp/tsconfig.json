@@ -30,12 +30,18 @@
       ],
       "@api/*": [
         "api/*"
-      ]
+      ],
+      "@customTypes/*": [
+        "customTypes/*"
+      ],
+      "@reducers/*": [
+        "reducers/*"
+      ],
     }
   },
   "extends": "../../tsconfig.json",
   "include": [
-    "src"
+    "src",
   ],
   "references": [
     {

@@ -1,9 +1,7 @@
-import { Product } from "types/Product"
+import { Product } from 'customTypes/Product';
 
-type Props = { product: Product }
+type Props = { product: Product };
 
 export default function ProductDetailPopup({ product }: Props) {
-  return (
-    <div>ProductDetailPopup</div>
-  )
+  return <div>ProductDetailPopup</div>;
 }

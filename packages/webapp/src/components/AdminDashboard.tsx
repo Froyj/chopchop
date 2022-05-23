@@ -1,13 +1,13 @@
 import { useState, useEffect, useReducer } from 'react';
-import ProductController from '../api/ProductController';
+import ProductController from '@api/ProductController';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
-import { Product, ProductDto } from 'types/Product';
-import ProductCard from './commons/ProductCard';
-import ProductForm from './ProductForm';
-import Modal from './commons/Modal';
+import { Product, ProductDto } from '@customTypes/Product';
+import ProductCard from '@components/commons/ProductCard';
+import ProductForm from '@components/ProductForm';
+import Modal from '@components/commons/Modal';
 import useModal from '../hooks/useModal';
-import { productsReducer, initialState } from '../reducers/products';
+import { productsReducer, initialState } from '@reducers/products';
 import {
   UPDATE_PRODUCT,
   LOAD_PRODUCTS,
@@ -20,7 +20,6 @@ import { confirmAlert } from 'react-confirm-alert';
 import { toast } from 'react-toastify';
 
 import 'react-confirm-alert/src/react-confirm-alert.css';
-import { Console } from 'console';
 
 export default function AdminDashboard() {
   const [products, dispatchProducts] = useReducer(

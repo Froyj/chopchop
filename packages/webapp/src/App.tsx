@@ -1,8 +1,8 @@
-import Navbar from './components/Navbar';
-import AdminDashboard from './components/AdminDashboard';
 import { BrowserRouter } from 'react-router-dom';
-import MainSection from './components/MainSection';
 import { ToastContainer } from 'react-toastify';
+import Navbar from '@components/Navbar';
+import MainSection from '@components/MainSection';
+import AdminDashboard from '@components/AdminDashboard';
 
 import 'react-toastify/dist/ReactToastify.css';
 

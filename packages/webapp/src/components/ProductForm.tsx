@@ -1,12 +1,13 @@
 import { useForm, FormProvider } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Product, ProductDto } from 'types/Product';
+import { Product, ProductDto } from '@customTypes/Product';
 
-import TextInput from './commons/form/TextInput';
-import CheckboxGroup from './commons/form/CheckboxGroup';
-import Checkbox from './commons/form/Checkbox';
+import TextInput from '@components/commons/form/TextInput';
+import NumberInput from '@components/commons/form/NumberInput';
+import CheckboxGroup from '@components/commons/form/CheckboxGroup';
+import Checkbox from '@components/commons/form/Checkbox';
+
+import { yupResolver } from '@hookform/resolvers/yup';
 import { createProductSchema } from '../form_validations/product.schema';
-import NumberInput from './commons/form/NumberInput';
 
 type Props = {
   product: Product | null;

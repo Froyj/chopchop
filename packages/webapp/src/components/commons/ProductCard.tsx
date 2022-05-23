@@ -1,6 +1,6 @@
-import { Product } from '../../types/Product';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Product } from '@customTypes/Product';
 import { faEdit } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 type Props = {
   product: Product;
