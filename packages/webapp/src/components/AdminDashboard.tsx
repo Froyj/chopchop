@@ -12,6 +12,7 @@ import {
   UPDATE_PRODUCT,
   LOAD_PRODUCTS,
   DELETE_PRODUCT,
+  ADD_NEW_PRODUCT,
 } from '../actions/products';
 import ConfirmationPopup from './ConfirmationPopup';
 
@@ -19,6 +20,7 @@ import { confirmAlert } from 'react-confirm-alert';
 import { toast } from 'react-toastify';
 
 import 'react-confirm-alert/src/react-confirm-alert.css';
+import { Console } from 'console';
 
 export default function AdminDashboard() {
   const [products, dispatchProducts] = useReducer(
@@ -88,7 +90,7 @@ export default function AdminDashboard() {
       await toast.promise(
         ProductController.create(data).then((newProduct) => {
           closeModal();
-          dispatchProducts({ type: UPDATE_PRODUCT, payload: newProduct });
+          dispatchProducts({ type: ADD_NEW_PRODUCT, payload: newProduct });
         }),
         {
           pending: 'Création en cours',
