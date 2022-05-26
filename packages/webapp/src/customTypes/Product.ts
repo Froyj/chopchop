@@ -15,4 +15,13 @@ export type Product = {
   imageUrl: string;
 };
 
-export type ProductDto = Omit<Product, '_id'>;
+export interface ProductDto {
+  name: string;
+  description: string;
+  nutritionalInformation: string[];
+  retentionTime: number;
+  reheatingInstructions: ReheatInstructions;
+  availability: string;
+  servings: number;
+  productImage: File[];
+}

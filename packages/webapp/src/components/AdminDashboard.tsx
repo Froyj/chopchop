@@ -52,7 +52,7 @@ export default function AdminDashboard() {
             title="Suppression de produit"
             message="Tu es sure de vouloir supprimer ce produit ?"
             handleValidate={() =>
-              toast.promise(deleteProduct(product), {
+              toast.promise(deleteProduct(product._id), {
                 pending: 'Suppression en cours',
                 success: 'Produit supprimé',
                 error: 'Erreur pendant la suppression du produit',

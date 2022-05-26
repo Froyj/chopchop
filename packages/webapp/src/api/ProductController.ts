@@ -9,14 +9,12 @@ class ProductController {
     return axios.post('/products', product).then((res) => res.data);
   }
 
-  public static update(product: Product) {
-    return axios
-      .patch(`/products/${product._id}`, product)
-      .then((res) => res.data);
+  public static update(id: string, product: Product) {
+    return axios.patch(`/products/${id}`, product).then((res) => res.data);
   }
 
-  public static delete(product: Product) {
-    return axios.delete(`/products/${product._id}`).then((res) => res.data);
+  public static delete(id) {
+    return axios.delete(`/products/${id}`).then((res) => res.data);
   }
 }
 

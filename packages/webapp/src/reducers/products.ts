@@ -10,7 +10,7 @@ export function productsReducer(state: ProductState, action): ProductState {
     case 'ADD_NEW_PRODUCT':
       return [...state, payload];
     case 'DELETE_PRODUCT':
-      return state.filter((p) => p._id !== payload._id);
+      return state.filter((p) => p._id !== payload);
     case 'UPDATE_PRODUCT':
       const indexToModify = state.findIndex((p) => p._id === payload._id);
       const productsCopy = [...state];
