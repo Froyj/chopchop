@@ -8,11 +8,12 @@ import Checkbox from '@components/commons/form/Checkbox';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { createProductSchema } from '../form_validations/product.schema';
+import { useState } from 'react';
 
 type Props = {
   product: Product | null;
-  handleUpdate: (product: Product) => void;
-  handleDelete: () => void;
+  handleUpdate: (id: string, product: Product) => void;
+  handleDelete: (id: string) => void;
   handleCreate: (product: ProductDto) => void;
 };
 
@@ -22,15 +23,18 @@ export default function ProductForm({
   handleDelete,
   handleCreate,
 }: Props) {
+  const productDto = { ...product, productImage: null };
+  delete productDto._id;
+  delete productDto.imageUrl;
+
   const formMethods = useForm({
-    defaultValues: { ...product },
+    defaultValues: productDto,
     resolver: yupResolver(createProductSchema),
   });
   const { handleSubmit, register } = formMethods;
-  const isUpdatingProductForm = Boolean(product);
 
   const onSubmit = (formData) =>
-    isUpdatingProductForm ? handleUpdate(formData) : handleCreate(formData);
+    product ? handleUpdate(product._id, formData) : handleCreate(formData);
 
   return (
     <FormProvider {...formMethods}>
@@ -39,7 +43,7 @@ export default function ProductForm({
         className="flex flex-col m-auto bg-white w-1/2 align-middle border-2 rounded-lg p-3 gap-y-4"
       >
         <img
-          src={product?.imageUrl}
+          src={product?.imageUrl || 'assets/placeholder.png'}
           alt=""
           className="relative rounded-full w-48 h-48 object-cover mx-auto border-2"
         />
@@ -109,17 +113,18 @@ export default function ProductForm({
           <Checkbox name="availability" value="1" label="Disponible" />
         </div>
         <TextInput name="imageUrl" />
+        <input type="file" {...register('productImage')} />
         <input
           type="submit"
-          value={isUpdatingProductForm ? 'Valider' : 'Ajouter le produit'}
+          value={product ? 'Valider' : 'Ajouter le produit'}
           className="rounded-md border p-2 bg-neutral-300"
         />
-        {isUpdatingProductForm && (
+        {product && (
           <input
             type="button"
             value="Supprimer"
             className="rounded-md border p-2 bg-red-500"
-            onClick={() => handleDelete()}
+            onClick={() => handleDelete(product._id)}
           />
         )}
       </form>

@@ -39,9 +39,9 @@ export default function AdminDashboard() {
     }
   };
 
-  async function deleteProduct(product) {
-    await ProductController.delete(product);
-    dispatchProducts({ type: DELETE_PRODUCT, payload: product });
+  async function deleteProduct(id) {
+    await ProductController.delete(id);
+    dispatchProducts({ type: DELETE_PRODUCT, payload: id });
   }
 
   const handleDelete = async (product) => {
@@ -70,24 +70,27 @@ export default function AdminDashboard() {
     });
   };
 
-  const handleUpdate = async (product: Product) => {
+  const handleUpdate = async (id: string, productDto) => {
     try {
-      await toast.promise(ProductController.update(product), {
+      await toast.promise(ProductController.update(id, productDto), {
         pending: 'Modification en cours',
         success: 'Produit modifié',
         error: 'Erreur pendant la modification du produit',
       });
-      dispatchProducts({ type: UPDATE_PRODUCT, payload: product });
+      dispatchProducts({
+        type: UPDATE_PRODUCT,
+        payload: { _id: id, ...productDto },
+      });
       closeModal();
     } catch (error) {
       console.error(error);
     }
   };
 
-  const handleCreate = async (data: ProductDto) => {
+  const handleCreate = async (productDto: ProductDto) => {
     try {
       await toast.promise(
-        ProductController.create(data).then((newProduct) => {
+        ProductController.create(productDto).then((newProduct) => {
           closeModal();
           dispatchProducts({ type: ADD_NEW_PRODUCT, payload: newProduct });
         }),
@@ -118,6 +121,7 @@ export default function AdminDashboard() {
       console.error(error);
     }
   }, []);
+
   return (
     <section className="basis-[100%-250px] p-12">
       <div className="flex justify-between mb-12">
@@ -128,7 +132,7 @@ export default function AdminDashboard() {
           onClick={() => openForm()}
         />
       </div>
-      <ul className="w-full grid grid-cols-[repeat(1,_minmax(0px,_1fr))] sm:grid-cols-[repeat(2,_minmax(0,_1fr))] md:grid-cols-[repeat(3,_minmax(0,_1fr))] xl:grid-cols-[repeat(5,_minmax(4,_1fr))]">
+      <ul className="mx-auto flex flex-wrap">
         {products.map((product) => (
           <ProductCard
             key={product._id}
