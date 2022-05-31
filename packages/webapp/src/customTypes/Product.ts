@@ -23,5 +23,5 @@ export interface ProductDto {
   reheatingInstructions: ReheatInstructions;
   availability: string;
   servings: number;
-  productImage: File[];
+  productImage: FileList;
 }

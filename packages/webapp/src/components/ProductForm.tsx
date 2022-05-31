@@ -8,11 +8,11 @@ import Checkbox from '@components/commons/form/Checkbox';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { createProductSchema } from '../form_validations/product.schema';
-import { useState } from 'react';
+import useFileInput from '../hooks/useFileInput';
 
 type Props = {
   product: Product | null;
-  handleUpdate: (id: string, product: Product) => void;
+  handleUpdate: (id: string, product: ProductDto) => void;
   handleDelete: (id: string) => void;
   handleCreate: (product: ProductDto) => void;
 };
@@ -31,10 +31,23 @@ export default function ProductForm({
     defaultValues: productDto,
     resolver: yupResolver(createProductSchema),
   });
+
+  const [file, handleFile] = useFileInput();
+
   const { handleSubmit, register } = formMethods;
 
-  const onSubmit = (formData) =>
-    product ? handleUpdate(product._id, formData) : handleCreate(formData);
+  const onSubmit = (data: ProductDto & Product) => {
+    console.log(file);
+    if (file) {
+      console.log('pouet');
+      const formData = new FormData();
+      formData.append('productImage', file);
+      for (const [key, value] of Object.entries(data)) {
+        formData.append(key, value);
+      }
+    }
+    product ? handleUpdate(product._id, data) : handleCreate(data);
+  };
 
   return (
     <FormProvider {...formMethods}>
@@ -112,8 +125,7 @@ export default function ProductForm({
           </span>
           <Checkbox name="availability" value="1" label="Disponible" />
         </div>
-        <TextInput name="imageUrl" />
-        <input type="file" {...register('productImage')} />
+        <input type="file" onChange={handleFile} />
         <input
           type="submit"
           value={product ? 'Valider' : 'Ajouter le produit'}
