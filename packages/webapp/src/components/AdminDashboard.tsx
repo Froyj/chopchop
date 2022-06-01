@@ -2,7 +2,7 @@ import { useState, useEffect, useReducer } from 'react';
 import ProductController from '@api/ProductController';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
-import { Product, ProductDto } from '@customTypes/Product';
+import { CreateProductDto, Product } from '@customTypes/Product';
 import ProductCard from '@components/commons/ProductCard';
 import ProductForm from '@components/ProductForm';
 import Modal from '@components/commons/Modal';
@@ -39,12 +39,12 @@ export default function AdminDashboard() {
     }
   };
 
-  async function deleteProduct(id) {
-    await ProductController.delete(id);
-    dispatchProducts({ type: DELETE_PRODUCT, payload: id });
-  }
-
   const handleDelete = async (product) => {
+    async function deleteProduct(id) {
+      await ProductController.delete(id);
+      dispatchProducts({ type: DELETE_PRODUCT, payload: id });
+    }
+
     confirmAlert({
       customUI: ({ onClose }) => {
         return (
@@ -70,16 +70,16 @@ export default function AdminDashboard() {
     });
   };
 
-  const handleUpdate = async (id: string, productDto) => {
+  const handleUpdate = async (id: string, formState) => {
     try {
-      await toast.promise(ProductController.update(id, productDto), {
+      await toast.promise(ProductController.update(id, formState), {
         pending: 'Modification en cours',
         success: 'Produit modifié',
         error: 'Erreur pendant la modification du produit',
       });
       dispatchProducts({
         type: UPDATE_PRODUCT,
-        payload: { _id: id, ...productDto },
+        payload: { _id: id, ...formState },
       });
       closeModal();
     } catch (error) {
@@ -87,7 +87,7 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleCreate = async (productDto: ProductDto) => {
+  const handleCreate = async (productDto: CreateProductDto) => {
     try {
       await toast.promise(
         ProductController.create(productDto).then((newProduct) => {

@@ -1,5 +1,9 @@
-import { useForm, FormProvider } from 'react-hook-form';
-import { Product, ProductDto } from '@customTypes/Product';
+import { useForm, FormProvider, useWatch } from 'react-hook-form';
+import {
+  Product,
+  CreateProductDto,
+  UpdateProductDto,
+} from '@customTypes/Product';
 
 import TextInput from '@components/commons/form/TextInput';
 import NumberInput from '@components/commons/form/NumberInput';
@@ -8,13 +12,13 @@ import Checkbox from '@components/commons/form/Checkbox';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { createProductSchema } from '../form_validations/product.schema';
-import useFileInput from '../hooks/useFileInput';
+import PickProductImage from './PickProductImage';
 
 type Props = {
   product: Product | null;
-  handleUpdate: (id: string, product: ProductDto) => void;
+  handleUpdate: (id: string, product) => void;
   handleDelete: (id: string) => void;
-  handleCreate: (product: ProductDto) => void;
+  handleCreate: (product) => void;
 };
 
 export default function ProductForm({
@@ -23,30 +27,23 @@ export default function ProductForm({
   handleDelete,
   handleCreate,
 }: Props) {
-  const productDto = { ...product, productImage: null };
+  const productDto = { ...product };
   delete productDto._id;
   delete productDto.imageUrl;
 
   const formMethods = useForm({
-    defaultValues: productDto,
+    defaultValues: productDto as UpdateProductDto,
     resolver: yupResolver(createProductSchema),
   });
 
-  const [file, handleFile] = useFileInput();
-
   const { handleSubmit, register } = formMethods;
 
-  const onSubmit = (data: ProductDto & Product) => {
-    console.log(file);
-    if (file) {
-      console.log('pouet');
-      const formData = new FormData();
-      formData.append('productImage', file);
-      for (const [key, value] of Object.entries(data)) {
-        formData.append(key, value);
-      }
+  const onSubmit = (data) => {
+    if (product?._id) {
+      handleUpdate(product._id, data as UpdateProductDto);
+    } else {
+      handleCreate(data as CreateProductDto);
     }
-    product ? handleUpdate(product._id, data) : handleCreate(data);
   };
 
   return (
@@ -125,7 +122,7 @@ export default function ProductForm({
           </span>
           <Checkbox name="availability" value="1" label="Disponible" />
         </div>
-        <input type="file" onChange={handleFile} />
+        <PickProductImage name="productImage" />
         <input
           type="submit"
           value={product ? 'Valider' : 'Ajouter le produit'}

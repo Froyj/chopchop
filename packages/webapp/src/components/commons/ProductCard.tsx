@@ -9,7 +9,9 @@ type Props = {
 
 export default function ProductCard({ product, openForm }: Props) {
   const productLabel =
-    product.name.length < 50 ? product.name : `${product.name.slice(0, 49)}...`;
+    product.name?.length < 50
+      ? product.name
+      : `${product.name.slice(0, 49)}...`;
 
   return (
     <li

@@ -15,7 +15,7 @@ export type Product = {
   imageUrl: string;
 };
 
-export interface ProductDto {
+export type CreateProductDto = {
   name: string;
   description: string;
   nutritionalInformation: string[];
@@ -23,5 +23,7 @@ export interface ProductDto {
   reheatingInstructions: ReheatInstructions;
   availability: string;
   servings: number;
-  productImage: FileList;
-}
+  productImage: File;
+};
+
+export type UpdateProductDto = Partial<CreateProductDto>;
