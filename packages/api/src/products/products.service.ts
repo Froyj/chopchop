@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -10,30 +10,81 @@ export class ProductsService {
   constructor(
     @InjectModel(Product.name) private productModel: Model<ProductDocument>,
   ) {}
-  create(createProductDto: CreateProductDto): Promise<Product> {
-    const createdProduct = new this.productModel(createProductDto);
-    return createdProduct.save();
+
+  async create(productDto: CreateProductDto): Promise<Product> {
+    try {
+      const createdProduct = new this.productModel({
+        name: productDto.name,
+        description: productDto.description,
+        category: productDto.category,
+        nutritionalInformation: productDto.nutritionalInformation,
+        retentionTime: productDto.retentionTime,
+        reheatingInstructions: productDto.reheatingInstructions,
+        availability: productDto.availability,
+        servings: productDto.servings,
+      });
+      return await createdProduct.save();
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        'Error creating product',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
-  findAll() {
-    const products = this.productModel.find().exec();
-    return products;
+  async findAll() {
+    try {
+      const products = await this.productModel.find().exec();
+      return products;
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        'Error retrieving products',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
-  findOne(id: string) {
-    const product = this.productModel.findById(id).exec();
-    return product;
+  async findOne(id: string) {
+    try {
+      const product = await this.productModel.findById(id).exec();
+      return product;
+    } catch (error) {
+      throw new HttpException(
+        'Error retrieving product',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
-  update(id: string, updateProductDto: UpdateProductDto) {
-    const modifiedProduct = this.productModel
-      .updateOne({ _id: id }, updateProductDto)
-      .exec();
-    return modifiedProduct;
+  async update(id: string, updateProductDto: UpdateProductDto) {
+    try {
+      const result = await this.productModel
+        .updateOne({ _id: id }, updateProductDto)
+        .exec();
+      if (!result?.acknowledged) {
+        throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
+      }
+      return result;
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        'Error updating product',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
-  remove(id: string) {
-    this.productModel.deleteOne({ _id: id }).exec();
-    return `Removed product with id ${id}`;
+  async remove(id: string) {
+    try {
+      await this.productModel.deleteOne({ _id: id }).exec();
+      return `Removed product with id ${id}`;
+    } catch (error) {
+      throw new HttpException(
+        'Error deleting product',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }
