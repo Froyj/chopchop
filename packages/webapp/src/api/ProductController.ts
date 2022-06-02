@@ -1,6 +1,20 @@
 import { CreateProductDto, UpdateProductDto } from '@customTypes/Product';
 import axios from '@helpers/axios-config';
 
+interface ProductFormState {
+  name: string;
+  description: string;
+  nutritionalInformation: string[];
+  retentionTime: number;
+  reheatingInstructions: {
+    reheatMode: string;
+    reheatInstructions: string;
+  };
+  availability: string;
+  servings: number;
+  productImage: FileList;
+}
+
 class ProductController {
   static getFormDataFromFormObject(formState) {
     const formData = new FormData();
@@ -16,13 +30,11 @@ class ProductController {
   public static getAll() {
     return axios.get('/products').then((res) => res.data);
   }
-  public static create(product: CreateProductDto) {
+  public static create(product: ProductFormState) {
     return axios.post('/products', product).then((res) => res.data);
   }
 
-  public static update(id: string, product: UpdateProductDto) {
-    const productDto = this.getFormDataFromFormObject(product);
-    console.log(product);
+  public static update(id: string, productDto: UpdateProductDto) {
     return axios.patch(`/products/${id}`, productDto).then((res) => res.data);
   }
 

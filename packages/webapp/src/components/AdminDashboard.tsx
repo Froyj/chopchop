@@ -88,7 +88,7 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleCreate = async (productDto: CreateProductDto) => {
+  const handleCreate = async (productDto) => {
     try {
       await toast.promise(
         ProductController.create(productDto)

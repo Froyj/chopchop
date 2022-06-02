@@ -37,7 +37,7 @@ export default function ProductCard({ product, openForm }: Props) {
           </h3>
           <div className="flex flex-col min-h-fit">
             <span className="font-semibold text-xl">
-              {product.availability}
+              {product.availability ? 'Disponible' : 'Indisponible'}
             </span>
             <button onClick={() => openForm(product)}>
               <FontAwesomeIcon icon={faEdit} />

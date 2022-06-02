@@ -23,7 +23,6 @@ export type CreateProductDto = {
   reheatingInstructions: ReheatInstructions;
   availability: string;
   servings: number;
-  productImage: FileList;
 };
 
 export type UpdateProductDto = Partial<CreateProductDto>;
