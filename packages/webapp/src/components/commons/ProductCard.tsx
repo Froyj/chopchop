@@ -22,7 +22,11 @@ export default function ProductCard({ product, openForm }: Props) {
       <div className=" p-4 text-center flex flex-col h-full">
         <div className="h-0">
           <img
-            src={`${API_URL}/${product.imageUrl}` || 'assets/placeholder.png'}
+            src={
+              product.imageUrl
+                ? `${API_URL}/${product.imageUrl}`
+                : 'assets/placeholder.png'
+            }
             alt=""
             className="relative -top-[75px] rounded-full w-36 h-36 object-cover mx-auto border-2"
           />

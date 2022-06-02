@@ -93,7 +93,7 @@ export default function AdminDashboard() {
       await toast.promise(
         ProductController.create(productDto)
           .then(async (newProduct) => {
-            if (productDto.productImage) {
+            if (productDto.productImage.length !== 0) {
               const formData = new FormData();
               formData.append('file', productDto.productImage[0]);
               const imageUrl = await ProductController.updateImage(
