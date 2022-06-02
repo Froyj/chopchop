@@ -14,6 +14,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { createProductSchema } from '../form_validations/product.schema';
 import PickProductImage from './PickProductImage';
 import ProductImage from './commons/ProductImage';
+import { API_URL } from '@helpers/env';
 
 type Props = {
   product: Product | null;
@@ -52,7 +53,13 @@ export default function ProductForm({
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col m-auto bg-white w-1/2 align-middle border-2 rounded-lg p-3 gap-y-4"
       >
-        <ProductImage url={product?.imageUrl} />
+        <ProductImage
+          url={
+            product?.imageUrl
+              ? `${API_URL}/${product?.imageUrl}`
+              : 'assets/placeholder.png'
+          }
+        />
         <TextInput placeholder="Qu'est ce qu'on mange?" name="name" />
         <TextInput placeholder="Description" name="description" />
         <TextInput placeholder="Catégorie" name="category" />
