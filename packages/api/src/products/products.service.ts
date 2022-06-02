@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -10,6 +10,8 @@ export class ProductsService {
   constructor(
     @InjectModel(Product.name) private productModel: Model<ProductDocument>,
   ) {}
+
+  private readonly logger = new Logger(ProductsService.name);
 
   async create(productDto: CreateProductDto): Promise<Product> {
     try {
@@ -25,7 +27,7 @@ export class ProductsService {
       });
       return await createdProduct.save();
     } catch (error) {
-      console.log(error);
+      this.logger.error(error);
       throw new HttpException(
         'Error creating product',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -39,6 +41,7 @@ export class ProductsService {
       return products;
     } catch (error) {
       console.log(error);
+      this.logger.error(error);
       throw new HttpException(
         'Error retrieving products',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -51,6 +54,7 @@ export class ProductsService {
       const product = await this.productModel.findById(id).exec();
       return product;
     } catch (error) {
+      this.logger.error(error);
       throw new HttpException(
         'Error retrieving product',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -68,7 +72,7 @@ export class ProductsService {
       }
       return result;
     } catch (error) {
-      console.log(error);
+      this.logger.error(error);
       throw new HttpException(
         'Error updating product',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -81,6 +85,7 @@ export class ProductsService {
       await this.productModel.deleteOne({ _id: id }).exec();
       return `Removed product with id ${id}`;
     } catch (error) {
+      this.logger.error(error);
       throw new HttpException(
         'Error deleting product',
         HttpStatus.INTERNAL_SERVER_ERROR,
