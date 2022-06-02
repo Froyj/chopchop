@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 type Props = {
@@ -31,7 +31,7 @@ function PickProductImage({ name }: Props) {
   return (
     <>
       {image && <img src={image} />}
-      <input type="file" name={name} ref={ref} onChange={onFileChange} />;
+      <input type="file" name={name} ref={ref} onChange={onFileChange} />
     </>
   );
 }

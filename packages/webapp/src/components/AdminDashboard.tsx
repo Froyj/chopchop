@@ -77,6 +77,7 @@ export default function AdminDashboard() {
         success: 'Produit modifié',
         error: 'Erreur pendant la modification du produit',
       });
+
       dispatchProducts({
         type: UPDATE_PRODUCT,
         payload: { _id: id, ...formState },
@@ -90,10 +91,23 @@ export default function AdminDashboard() {
   const handleCreate = async (productDto: CreateProductDto) => {
     try {
       await toast.promise(
-        ProductController.create(productDto).then((newProduct) => {
-          closeModal();
-          dispatchProducts({ type: ADD_NEW_PRODUCT, payload: newProduct });
-        }),
+        ProductController.create(productDto)
+          .then(async (newProduct) => {
+            if (productDto.productImage) {
+              const formData = new FormData();
+              formData.append('file', productDto.productImage[0]);
+              const imageUrl = await ProductController.updateImage(
+                newProduct._id,
+                formData
+              );
+              newProduct.imageUrl = imageUrl;
+            }
+            return newProduct;
+          })
+          .then((newProduct) => {
+            closeModal();
+            dispatchProducts({ type: ADD_NEW_PRODUCT, payload: newProduct });
+          }),
         {
           pending: 'Création en cours',
           success: 'Produit créé avec succès ! Bravo Championne !',

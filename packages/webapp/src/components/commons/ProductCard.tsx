@@ -1,6 +1,7 @@
 import { Product } from '@customTypes/Product';
 import { faEdit } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { API_URL } from '@helpers/env';
 
 type Props = {
   product: Product;
@@ -21,7 +22,7 @@ export default function ProductCard({ product, openForm }: Props) {
       <div className=" p-4 text-center flex flex-col h-full">
         <div className="h-0">
           <img
-            src={product.imageUrl || 'assets/placeholder.png'}
+            src={`${API_URL}/${product.imageUrl}` || 'assets/placeholder.png'}
             alt=""
             className="relative -top-[75px] rounded-full w-36 h-36 object-cover mx-auto border-2"
           />

@@ -13,6 +13,7 @@ import Checkbox from '@components/commons/form/Checkbox';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { createProductSchema } from '../form_validations/product.schema';
 import PickProductImage from './PickProductImage';
+import ProductImage from './commons/ProductImage';
 
 type Props = {
   product: Product | null;
@@ -30,7 +31,6 @@ export default function ProductForm({
   const productDto = { ...product };
   delete productDto._id;
   delete productDto.imageUrl;
-
   const formMethods = useForm({
     defaultValues: productDto as UpdateProductDto,
     resolver: yupResolver(createProductSchema),
@@ -52,11 +52,7 @@ export default function ProductForm({
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col m-auto bg-white w-1/2 align-middle border-2 rounded-lg p-3 gap-y-4"
       >
-        <img
-          src={product?.imageUrl || 'assets/placeholder.png'}
-          alt=""
-          className="relative rounded-full w-48 h-48 object-cover mx-auto border-2"
-        />
+        <ProductImage url={product?.imageUrl} />
         <TextInput placeholder="Qu'est ce qu'on mange?" name="name" />
         <TextInput placeholder="Description" name="description" />
         <TextInput placeholder="Catégorie" name="category" />
