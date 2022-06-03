@@ -1,8 +1,8 @@
-import { useForm, FormProvider, useWatch } from 'react-hook-form';
+import { useForm, FormProvider } from 'react-hook-form';
 import {
   Product,
-  CreateProductDto,
-  UpdateProductDto,
+  UpdateProductFormState,
+  CreateProductFormState,
 } from '@customTypes/Product';
 
 import TextInput from '@components/commons/form/TextInput';
@@ -18,9 +18,9 @@ import { API_URL } from '@helpers/env';
 
 type Props = {
   product: Product | null;
-  handleUpdate: (id: string, product) => void;
+  handleUpdate: (id: string, product: UpdateProductFormState) => void;
   handleDelete: (id: string) => void;
-  handleCreate: (product) => void;
+  handleCreate: (product: CreateProductFormState) => void;
 };
 
 export default function ProductForm({
@@ -32,18 +32,19 @@ export default function ProductForm({
   const productDto = { ...product };
   delete productDto._id;
   delete productDto.imageUrl;
+
   const formMethods = useForm({
-    defaultValues: productDto as UpdateProductDto,
+    defaultValues: productDto as UpdateProductFormState,
     resolver: yupResolver(createProductSchema),
   });
 
   const { handleSubmit, register } = formMethods;
 
-  const onSubmit = (data) => {
-    if (product?._id) {
-      handleUpdate(product._id, data);
+  const onSubmit = (data: CreateProductFormState | UpdateProductFormState) => {
+    if (product) {
+      handleUpdate(product._id, data as UpdateProductFormState);
     } else {
-      handleCreate(data as CreateProductDto);
+      handleCreate(data as CreateProductFormState);
     }
   };
 

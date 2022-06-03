@@ -1,40 +1,20 @@
-import { CreateProductDto, UpdateProductDto } from '@customTypes/Product';
+import {
+  CreateProductDto,
+  Product,
+  UpdateProductDto,
+  UpdateProductFormState,
+} from '@customTypes/Product';
 import axios from '@helpers/axios-config';
 
-interface ProductFormState {
-  name: string;
-  description: string;
-  nutritionalInformation: string[];
-  retentionTime: number;
-  reheatingInstructions: {
-    reheatMode: string;
-    reheatInstructions: string;
-  };
-  availability: string;
-  servings: number;
-  productImage: FileList;
-}
-
 class ProductController {
-  static getFormDataFromFormObject(formState) {
-    const formData = new FormData();
-    for (let [key, value] of Object.entries(formState)) {
-      if (typeof value !== 'string' && !(value instanceof Blob)) {
-        value = JSON.stringify(value);
-      }
-      formData.append(key, value as string | Blob);
-    }
-    return formData;
-  }
-
   public static getAll() {
     return axios.get('/products').then((res) => res.data);
   }
-  public static create(product: ProductFormState) {
-    return axios.post('/products', product).then((res) => res.data);
+  public static create(productDto: CreateProductDto) {
+    return axios.post('/products', productDto).then((res) => res.data);
   }
 
-  public static update(id: string, productDto: UpdateProductDto) {
+  public static update(id: string, productDto: UpdateProductFormState) {
     return axios.patch(`/products/${id}`, productDto).then((res) => res.data);
   }
 

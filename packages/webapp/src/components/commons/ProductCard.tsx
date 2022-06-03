@@ -5,7 +5,7 @@ import { API_URL } from '@helpers/env';
 
 type Props = {
   product: Product;
-  openForm: (Product) => void;
+  openForm: (product: Product) => void;
 };
 
 export default function ProductCard({ product, openForm }: Props) {

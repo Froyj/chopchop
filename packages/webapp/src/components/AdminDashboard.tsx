@@ -3,7 +3,12 @@ import { confirmAlert } from 'react-confirm-alert';
 import { toast } from 'react-toastify';
 
 import { productsReducer, initialState, ActionType } from '@reducers/products';
-import { Product } from '@customTypes/Product';
+import {
+  CreateProductFormState,
+  Product,
+  UpdateProductDto,
+  UpdateProductFormState,
+} from '@customTypes/Product';
 import ProductController from '@api/ProductController';
 import useModal from '../hooks/useModal';
 
@@ -38,8 +43,8 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleDelete = async (product) => {
-    async function deleteProduct(id) {
+  const handleDelete = async (id: string) => {
+    async function deleteProduct(id: string) {
       await ProductController.delete(id);
       dispatchProducts({ type: ActionType.DELETE_PRODUCT, id });
     }
@@ -51,7 +56,7 @@ export default function AdminDashboard() {
             title="Suppression de produit"
             message="Tu es sure de vouloir supprimer ce produit ?"
             handleValidate={() =>
-              toast.promise(deleteProduct(product._id), {
+              toast.promise(deleteProduct(id), {
                 pending: 'Suppression en cours',
                 success: 'Produit supprimé',
                 error: 'Erreur pendant la suppression du produit',
@@ -69,31 +74,35 @@ export default function AdminDashboard() {
     });
   };
 
-  const updateImage = async (id, product) => {
+  const updateImage = async (id: string, file: File) => {
     const formData = new FormData();
-    formData.append('file', product.productImage[0]);
+    formData.append('file', file);
     const imageUrl = await ProductController.updateImage(id, formData);
     return imageUrl;
   };
 
-  const handleUpdate = async (id: string, product) => {
+  const handleUpdate = async (
+    id: string,
+    productFormState: UpdateProductFormState
+  ) => {
     try {
       await toast.promise(
-        ProductController.update(id, product)
-          .then(async () => {
-            const productCopy = { ...product };
-            if (product.productImage.length !== 0) {
-              productCopy.imageUrl = await updateImage(id, product);
-            }
-            return productCopy;
-          })
-          .then(() => {
-            closeModal();
-            dispatchProducts({
-              type: ActionType.UPDATE_PRODUCT,
-              product: { _id: id, ...product },
-            });
-          }),
+        async () => {
+          await ProductController.update(id, productFormState);
+          const updatedProduct = { _id: id, ...productFormState } as Product;
+          if (productFormState.productImage?.[0]) {
+            const imageUrl = await updateImage(
+              id,
+              productFormState.productImage?.[0]
+            );
+            updatedProduct.imageUrl = imageUrl;
+          }
+          dispatchProducts({
+            type: ActionType.UPDATE_PRODUCT,
+            product: { ...updatedProduct },
+          });
+          closeModal();
+        },
         {
           pending: 'Modification en cours',
           success: 'Produit modifié',
@@ -105,15 +114,15 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleCreate = async (productDto) => {
+  const handleCreate = async (productFormState: CreateProductFormState) => {
     try {
       await toast.promise(
-        ProductController.create(productDto)
+        ProductController.create(productFormState)
           .then(async (newProduct) => {
-            if (productDto.productImage.length !== 0) {
+            if (productFormState.productImage?.[0]) {
               newProduct.imageUrl = await updateImage(
                 newProduct._id,
-                newProduct
+                productFormState.productImage?.[0]
               );
             }
             return newProduct;
@@ -180,7 +189,7 @@ export default function AdminDashboard() {
             <ProductForm
               product={selectedProduct}
               handleUpdate={handleUpdate}
-              handleDelete={() => handleDelete(selectedProduct)}
+              handleDelete={handleDelete}
               handleCreate={handleCreate}
             />
           </Modal>
