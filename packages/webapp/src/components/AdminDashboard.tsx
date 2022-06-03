@@ -1,23 +1,19 @@
 import { useState, useEffect, useReducer } from 'react';
-import ProductController from '@api/ProductController';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
-import { CreateProductDto, Product } from '@customTypes/Product';
-import ProductCard from '@components/commons/ProductCard';
-import ProductForm from '@components/ProductForm';
-import Modal from '@components/commons/Modal';
-import useModal from '../hooks/useModal';
-import { productsReducer, initialState } from '@reducers/products';
-import {
-  UPDATE_PRODUCT,
-  LOAD_PRODUCTS,
-  DELETE_PRODUCT,
-  ADD_NEW_PRODUCT,
-} from '../actions/products';
-import ConfirmationPopup from './ConfirmationPopup';
-
 import { confirmAlert } from 'react-confirm-alert';
 import { toast } from 'react-toastify';
+
+import { productsReducer, initialState, ActionType } from '@reducers/products';
+import { Product } from '@customTypes/Product';
+import ProductController from '@api/ProductController';
+import useModal from '../hooks/useModal';
+
+import Modal from '@components/commons/Modal';
+import ProductCard from '@components/commons/ProductCard';
+import ProductForm from '@components/ProductForm';
+import ConfirmationPopup from '@components/ConfirmationPopup';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
@@ -33,7 +29,10 @@ export default function AdminDashboard() {
   const fetchProducts = async () => {
     try {
       const productsDTO = await ProductController.getAll();
-      dispatchProducts({ type: LOAD_PRODUCTS, payload: productsDTO });
+      dispatchProducts({
+        type: ActionType.LOAD_PRODUCTS,
+        products: productsDTO,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -42,7 +41,7 @@ export default function AdminDashboard() {
   const handleDelete = async (product) => {
     async function deleteProduct(id) {
       await ProductController.delete(id);
-      dispatchProducts({ type: DELETE_PRODUCT, payload: id });
+      dispatchProducts({ type: ActionType.DELETE_PRODUCT, id });
     }
 
     confirmAlert({
@@ -70,19 +69,37 @@ export default function AdminDashboard() {
     });
   };
 
-  const handleUpdate = async (id: string, formState) => {
-    try {
-      await toast.promise(ProductController.update(id, formState), {
-        pending: 'Modification en cours',
-        success: 'Produit modifié',
-        error: 'Erreur pendant la modification du produit',
-      });
+  const updateImage = async (id, product) => {
+    const formData = new FormData();
+    formData.append('file', product.productImage[0]);
+    const imageUrl = await ProductController.updateImage(id, formData);
+    return imageUrl;
+  };
 
-      dispatchProducts({
-        type: UPDATE_PRODUCT,
-        payload: { _id: id, ...formState },
-      });
-      closeModal();
+  const handleUpdate = async (id: string, product) => {
+    try {
+      await toast.promise(
+        ProductController.update(id, product)
+          .then(async () => {
+            const productCopy = { ...product };
+            if (product.productImage.length !== 0) {
+              productCopy.imageUrl = await updateImage(id, product);
+            }
+            return productCopy;
+          })
+          .then(() => {
+            closeModal();
+            dispatchProducts({
+              type: ActionType.UPDATE_PRODUCT,
+              product: { _id: id, ...product },
+            });
+          }),
+        {
+          pending: 'Modification en cours',
+          success: 'Produit modifié',
+          error: 'Erreur pendant la modification du produit',
+        }
+      );
     } catch (error) {
       console.error(error);
     }
@@ -94,19 +111,19 @@ export default function AdminDashboard() {
         ProductController.create(productDto)
           .then(async (newProduct) => {
             if (productDto.productImage.length !== 0) {
-              const formData = new FormData();
-              formData.append('file', productDto.productImage[0]);
-              const imageUrl = await ProductController.updateImage(
+              newProduct.imageUrl = await updateImage(
                 newProduct._id,
-                formData
+                newProduct
               );
-              newProduct.imageUrl = imageUrl;
             }
             return newProduct;
           })
           .then((newProduct) => {
+            dispatchProducts({
+              type: ActionType.ADD_NEW_PRODUCT,
+              product: newProduct,
+            });
             closeModal();
-            dispatchProducts({ type: ADD_NEW_PRODUCT, payload: newProduct });
           }),
         {
           pending: 'Création en cours',

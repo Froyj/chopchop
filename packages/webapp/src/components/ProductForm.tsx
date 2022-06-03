@@ -41,7 +41,7 @@ export default function ProductForm({
 
   const onSubmit = (data) => {
     if (product?._id) {
-      handleUpdate(product._id, data as UpdateProductDto);
+      handleUpdate(product._id, data);
     } else {
       handleCreate(data as CreateProductDto);
     }
