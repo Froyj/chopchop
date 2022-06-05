@@ -1,4 +1,4 @@
-import { Product } from 'customTypes/Product';
+import { Product, UpdateProductFormState } from 'customTypes/Product';
 
 export enum ActionType {
   ADD_NEW_PRODUCT = 'ADD_NEW_PRODUCT',
@@ -24,7 +24,9 @@ type Action =
     }
   | {
       type: ActionType.UPDATE_PRODUCT;
-      product: Product;
+      id: string;
+      product: UpdateProductFormState;
+      imageUrl?: string;
     };
 
 export const initialState: State = [];
@@ -36,12 +38,15 @@ export function productsReducer(state: State, action: Action): State {
     case 'DELETE_PRODUCT':
       return state.filter((p) => p._id !== action.id);
     case 'UPDATE_PRODUCT':
-      const indexToModify = state.findIndex(
-        (p) => p._id === action.product._id
-      );
-      const productsCopy = [...state];
-      productsCopy[indexToModify] = action.product;
-      return productsCopy;
+      const newState = [...state];
+      const productToUpdate = newState.find((p) => p._id === action.id);
+      const updatedProduct = {
+        ...productToUpdate,
+        ...action.product,
+      };
+      const indexToModify = newState.findIndex((p) => p._id === action.id);
+      newState.splice(indexToModify, 1, updatedProduct as Product);
+      return newState;
     case 'LOAD_PRODUCTS':
       return action.products;
     default:
