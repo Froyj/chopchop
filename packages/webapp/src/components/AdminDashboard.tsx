@@ -88,8 +88,10 @@ export default function AdminDashboard() {
     try {
       await toast.promise(
         async () => {
-          await ProductController.update(id, productFormState);
-          const updatedProduct = { _id: id, ...productFormState } as Product;
+          const updatedProduct = await ProductController.update(
+            id,
+            productFormState
+          );
           if (productFormState.productImage?.[0]) {
             const imageUrl = await updateImage(
               id,
@@ -99,6 +101,7 @@ export default function AdminDashboard() {
           }
           dispatchProducts({
             type: ActionType.UPDATE_PRODUCT,
+            id,
             product: { ...updatedProduct },
           });
           closeModal();
