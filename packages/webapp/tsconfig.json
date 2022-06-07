@@ -3,7 +3,11 @@
     "target": "ESNext",
     "outDir": "./lib",
     "useDefineForClassFields": true,
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
+    ],
     "allowJs": false,
     "skipLibCheck": false,
     "esModuleInterop": false,
@@ -24,10 +28,35 @@
     "experimentalDecorators": true,
     "sourceMap": true,
   },
-  "include": ["src"],
+  "include": [
+    "src"
+  ],
   "exclude": [
     "node_modules",
     "**/*.spec.ts"
   ],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "extends": "../../tsconfig.json",
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ],
+  "baseUrl": "src",
+  "paths": {
+    "@helpers/*": [
+      "helpers/*"
+    ],
+    "@components/*": [
+      "components/*"
+    ],
+    "@api/*": [
+      "api/*"
+    ],
+    "@customTypes/*": [
+      "customTypes/*"
+    ],
+    "@reducers/*": [
+      "reducers/*"
+    ],
+  },
 }

@@ -1,5 +1,8 @@
 node_modules/
+database/
+dist/
 lerna-debug.log
 npm-debug.log
 packages/*/lib
 .idea
+icons.txt
