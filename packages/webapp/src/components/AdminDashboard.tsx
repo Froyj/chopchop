@@ -166,7 +166,7 @@ export default function AdminDashboard() {
   }, []);
 
   return (
-    <section className="basis-[100%-250px] p-12">
+    <section className="p-12">
       <div className="flex justify-between mb-12">
         <h1 className="text-4xl font-semibold">À la carte</h1>
         <FontAwesomeIcon
