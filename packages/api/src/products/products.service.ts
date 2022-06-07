@@ -40,7 +40,6 @@ export class ProductsService {
       const products = await this.productModel.find().exec();
       return products;
     } catch (error) {
-      console.log(error);
       this.logger.error(error);
       throw new HttpException(
         'Error retrieving products',
