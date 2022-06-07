@@ -15,6 +15,8 @@ import { createProductSchema } from '../form_validations/product.schema';
 import PickProductImage from './PickProductImage';
 import ProductImage from './commons/ProductImage';
 import { API_URL } from '@helpers/env';
+import FormProductImage from './commons/FormProductImage';
+import { useCallback, useState } from 'react';
 
 type Props = {
   product: Product | null;
@@ -40,6 +42,27 @@ export default function ProductForm({
 
   const { handleSubmit, register } = formMethods;
 
+  const [image, setImage] = useState<string>('');
+  const { onChange } = register('productImage');
+
+  function getBase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    });
+  }
+
+  const onFileChange = useCallback(async (event) => {
+    if (event.target.files?.[0]) {
+      const base64 = await getBase64(event.target.files[0]);
+      console.log(typeof base64);
+      setImage(base64);
+      onChange(event);
+    }
+  }, []);
+
   const onSubmit = (data: CreateProductFormState | UpdateProductFormState) => {
     if (product) {
       handleUpdate(product._id, data as UpdateProductFormState);
@@ -52,15 +75,18 @@ export default function ProductForm({
     <FormProvider {...formMethods}>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col m-auto bg-white w-1/2 align-middle border-2 rounded-lg p-3 gap-y-4"
+        className="flex flex-col m-auto bg-white w-1/2 align-middle border-2 rounded-lg p-3 gap-y-2"
       >
-        <ProductImage
-          url={
-            product?.imageUrl
-              ? `${API_URL}/${product?.imageUrl}`
-              : 'assets/placeholder.png'
-          }
-        />
+        <label htmlFor="upload-file-input">
+          <FormProductImage
+            selectedImage={image}
+            url={
+              product?.imageUrl
+                ? `${API_URL}/${product?.imageUrl}`
+                : 'assets/placeholder.png'
+            }
+          />
+        </label>
         <TextInput placeholder="Qu'est ce qu'on mange?" name="name" />
         <TextInput placeholder="Description" name="description" />
         <TextInput placeholder="Catégorie" name="category" />
@@ -126,7 +152,11 @@ export default function ProductForm({
           </span>
           <Checkbox name="availability" value="1" label="Disponible" />
         </div>
-        <PickProductImage name="productImage" />
+        <PickProductImage
+          id="upload-file-input"
+          name="productImage"
+          onFileChange={onFileChange}
+        />
         <input
           type="submit"
           value={product ? 'Valider' : 'Ajouter le produit'}

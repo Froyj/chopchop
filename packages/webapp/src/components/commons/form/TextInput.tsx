@@ -17,7 +17,7 @@ function TextInput({ name, placeholder }: Props) {
         {...register(name)}
         placeholder={placeholder}
         type="text"
-        className="rounded-lg border p-4"
+        className="rounded-lg border p-2"
       />
       <p className="ml-2 text-sm text-red-600">{errors[name]?.message}</p>
     </>
