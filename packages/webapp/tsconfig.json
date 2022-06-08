@@ -20,6 +20,13 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+    "declaration": true,
+    "noImplicitAny": false,
+    "removeComments": true,
+    "noLib": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
     "baseUrl": "src",
     "paths": {
       "@helpers/*": [
@@ -37,15 +44,19 @@
       "@reducers/*": [
         "reducers/*"
       ],
-    }
+    },
   },
-  "extends": "../../tsconfig.json",
   "include": [
-    "src",
+    "src"
   ],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts"
+  ],
+  "extends": "../../tsconfig.json",
   "references": [
     {
       "path": "./tsconfig.node.json"
     }
-  ]
+  ],
 }

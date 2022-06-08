@@ -1,0 +1,25 @@
+# Use root/example as user/password credentials
+version: '3.1'
+
+services:
+  web:
+    build: ./packages/webapp
+    command: sh -c "npm rebuild esbuild && npm run dev"
+    ports:
+      - 3000:3000
+    # volumes:
+    #   - ./packages/webapp/src:/app/src
+  api:
+    build: ./packages/api
+    ports: 
+      - 4001:4000
+    environment:
+      CONFIG_MONGODB_USERNAME: root
+      CONFIG_MONGODB_PASSWORD: example
+      CONFIG_MONGODB_URL: mongodb://root:example:27017/
+  mongo-test:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
