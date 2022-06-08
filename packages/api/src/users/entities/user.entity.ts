@@ -18,11 +18,11 @@ export class User {
   @Prop({ required: true })
   firstname: string;
 
-  @Prop({ required: true })
+  @Prop({ type: Object, required: true })
   address: Address;
 
   @Prop({ required: true })
-  telephone: number;
+  telephone: string;
 
   @Prop({ required: true })
   mail: string;

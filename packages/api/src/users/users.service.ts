@@ -44,7 +44,7 @@ export class UsersService {
     }
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     try {
       const users = await this.userModel.findById(id).exec();
       return users;
@@ -57,7 +57,7 @@ export class UsersService {
     }
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: string, updateUserDto: UpdateUserDto) {
     try {
       const result = await this.userModel
         .updateOne({ _id: id }, updateUserDto)
@@ -75,7 +75,7 @@ export class UsersService {
     }
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     try {
       await this.userModel.deleteOne({ _id: id }).exec();
       return `Removed user with id ${id}`;
