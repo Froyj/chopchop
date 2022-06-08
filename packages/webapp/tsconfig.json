@@ -27,6 +27,24 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "sourceMap": true,
+    "baseUrl": "src",
+    "paths": {
+      "@helpers/*": [
+        "helpers/*"
+      ],
+      "@components/*": [
+        "components/*"
+      ],
+      "@api/*": [
+        "api/*"
+      ],
+      "@customTypes/*": [
+        "customTypes/*"
+      ],
+      "@reducers/*": [
+        "reducers/*"
+      ],
+    },
   },
   "include": [
     "src"
@@ -41,22 +59,4 @@
       "path": "./tsconfig.node.json"
     }
   ],
-  "baseUrl": "src",
-  "paths": {
-    "@helpers/*": [
-      "helpers/*"
-    ],
-    "@components/*": [
-      "components/*"
-    ],
-    "@api/*": [
-      "api/*"
-    ],
-    "@customTypes/*": [
-      "customTypes/*"
-    ],
-    "@reducers/*": [
-      "reducers/*"
-    ],
-  },
 }
