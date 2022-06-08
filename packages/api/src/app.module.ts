@@ -6,7 +6,7 @@ import { ProductsModule } from './products/products.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { UsersModule } from './users/users.module';
-import { BananesModule } from './bananes/bananes.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -19,7 +19,7 @@ import { BananesModule } from './bananes/bananes.module';
       exclude: ['/api*'],
     }),
     UsersModule,
-    BananesModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
