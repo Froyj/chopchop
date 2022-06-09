@@ -57,6 +57,19 @@ export class UsersService {
     }
   }
 
+  async findByEmail(mail: string) {
+    try {
+      const user = await this.userModel.findOne({ mail }).exec();
+      return user;
+    } catch (error) {
+      this.logger.error(error);
+      throw new HttpException(
+        'Error retrieving users',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
   async update(id: string, updateUserDto: UpdateUserDto) {
     try {
       const result = await this.userModel

@@ -10,14 +10,14 @@ import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://root:example@localhost:27018', {
-      dbName: 'copabanana',
-    }),
-    ProductsModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'upload'),
       exclude: ['/api*'],
     }),
+    MongooseModule.forRoot('mongodb://root:example@localhost:27018', {
+      dbName: 'copabanana',
+    }),
+    ProductsModule,
     UsersModule,
     AuthModule,
   ],
