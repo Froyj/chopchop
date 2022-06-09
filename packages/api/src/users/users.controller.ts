@@ -17,7 +17,7 @@ import { Role } from 'src/auth/role.enum';
 import { Roles } from 'src/auth/role.decorator';
 import { RolesGuard } from 'src/auth/role.guard';
 
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -28,10 +28,8 @@ export class UsersController {
   }
 
   @Roles(Role.Admin)
-  @UseGuards(RolesGuard)
   @Get()
   findAll(@Request() req) {
-    console.log(req.user);
     return this.usersService.findAll();
   }
 
