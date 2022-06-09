@@ -20,6 +20,7 @@ export class UsersService {
         telephone: createUserDto.telephone,
         mail: createUserDto.mail,
         hashedPassword: createUserDto.hashedPassword,
+        role: createUserDto.role,
       });
       return await createdUser.save();
     } catch (error) {

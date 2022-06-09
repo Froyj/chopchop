@@ -29,6 +29,9 @@ export class User {
 
   @Prop({ required: true })
   hashedPassword: string;
+
+  @Prop({ required: true, default: 'user' })
+  role: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
