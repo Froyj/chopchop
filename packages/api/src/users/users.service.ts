@@ -61,7 +61,7 @@ export class UsersService {
   async findByEmail(mail: string) {
     try {
       const user = await this.userModel.findOne({ mail }).exec();
-      return user;
+      return user.toJSON();
     } catch (error) {
       this.logger.error(error);
       throw new HttpException(

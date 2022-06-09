@@ -11,13 +11,7 @@ import { APP_GUARD } from '@nestjs/core';
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
   ],
   controllers: [UsersController],
-  providers: [
-    UsersService,
-    {
-      provide: APP_GUARD,
-      useClass: RolesGuard,
-    },
-  ],
+  providers: [UsersService],
   exports: [UsersService],
 })
 export class UsersModule {}
