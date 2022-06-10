@@ -20,6 +20,7 @@ export class UsersService {
         telephone: createUserDto.telephone,
         mail: createUserDto.mail,
         hashedPassword: createUserDto.hashedPassword,
+        role: createUserDto.role,
       });
       return await createdUser.save();
     } catch (error) {
@@ -48,6 +49,19 @@ export class UsersService {
     try {
       const users = await this.userModel.findById(id).exec();
       return users;
+    } catch (error) {
+      this.logger.error(error);
+      throw new HttpException(
+        'Error retrieving users',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  async findByEmail(mail: string) {
+    try {
+      const user = await this.userModel.findOne({ mail }).exec();
+      return user.toJSON();
     } catch (error) {
       this.logger.error(error);
       throw new HttpException(

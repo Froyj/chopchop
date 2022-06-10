@@ -11,4 +11,5 @@ export class CreateUserDto {
   telephone: string;
   mail: string;
   hashedPassword: string;
+  role: string;
 }
